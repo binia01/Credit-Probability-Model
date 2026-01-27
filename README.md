@@ -18,11 +18,11 @@ Follow these steps to set up the project environment:
 3. **Activate the virtual environment**
    - On Linux/macOS:
      ```bash
-     source venv/bin/activate
+     source .venv/bin/activate
      ```
    - On Windows:
      ```bash
-     .\venv\Scripts\activate
+     .\.venv\Scripts\activate
      ```
 
 4. **Install dependencies**
