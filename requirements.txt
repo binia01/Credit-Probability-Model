@@ -11,3 +11,5 @@ flake8
 pydantic
 fastapi
 httpx
+kagglehub
+streamlit
