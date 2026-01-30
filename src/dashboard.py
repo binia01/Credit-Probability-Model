@@ -38,3 +38,21 @@ def check_api_health() -> bool:
         return response.status_code == 200
     except:
         return False
+
+def call_api_predict(customer_id: str, features: dict, is_raw: bool = True) -> dict:
+    """Call the FastAPI endpoint for credit scoring."""
+    try:
+        url = f"{API_BASE_URL}/predict"
+        params = {"customer_id": customer_id, "is_raw": is_raw}
+        response = requests.post(url, json=features, params=params, timeout=10)
+        response.raise_for_status()
+        return response.json()
+    except requests.exceptions.ConnectionError:
+        st.error("Could not connect to API. Ensure the FastAPI server is running on port 8000.")
+        return None
+    except requests.exceptions.HTTPError as e:
+        st.error(f"API Error: {e}")
+        return None
+    except Exception as e:
+        st.error(f"Unexpected error: {str(e)}")
+        return None
