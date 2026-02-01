@@ -13,3 +13,4 @@ fastapi
 httpx
 kagglehub
 streamlit
+plotly

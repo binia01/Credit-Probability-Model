@@ -1,9 +1,9 @@
 import logging
+import os
 from contextlib import asynccontextmanager
 from fastapi import FastAPI, HTTPException
 from src.api.pydantic_models import CreditScoringRequest, CreditScoringResponse
 from src.predict import CreditScoringModel
-import mlflow.sklearn
 
 
 logging.basicConfig(level=logging.INFO)
@@ -25,11 +25,12 @@ async def lifespan(app: FastAPI):
     """
     global model_engine
     try:
-        model_uri = "models:/CreditRisk_LogisticRegression/Latest"
+        # Try MLflow first, fallback to pickle handled in CreditScoringModel
+        model_uri = os.getenv("MODEL_URI", "models:/CreditRisk_LogisticRegression/Latest")
         model_engine = CreditScoringModel(model_uri)
-        logger.info(f"Model loaded successfully.")
+        logger.info("Model engine initialized successfully.")
     except Exception as e:
-        logger.critical(f"Failed to load model: {e}")
+        logger.critical(f"Failed to initialize model engine: {e}")
         model_engine = None
 
     yield

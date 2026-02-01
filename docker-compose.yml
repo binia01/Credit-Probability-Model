@@ -1,12 +1,10 @@
-version: '3.8'
-
 services:
   # FastAPI Credit Scoring API
   api:
     build:
       context: .
       dockerfile: Dockerfile
-    container_name: credit-scoring-api
+    container_name: credit-scoring
     ports:
       - "8000:8000"
     volumes:

@@ -160,38 +160,28 @@ Credit-Probability-Model/
 - Docker and Docker Compose installed
 - Models trained and saved in `models/` directory
 
-### Build and Run All Services
+### Build and Run API
 
 ```bash
-# Build and start all services (API, Dashboard, MLflow)
+# Build and start the API service
 docker-compose up --build
 
 # Or run in detached mode
 docker-compose up --build -d
 ```
 
-### Services Available
+### Service Available
 
-| Service    | URL                    | Description                     |
-|------------|------------------------|---------------------------------|
-| API        | http://localhost:8000  | Credit Scoring REST API         |
-| Dashboard  | http://localhost:8501  | Streamlit Dashboard             |
-| MLflow     | http://localhost:5000  | MLflow Tracking UI              |
+| Service | URL                   | Description             |
+|---------|-----------------------|-------------------------|
+| API     | http://localhost:8000 | Credit Scoring REST API |
 
-### Run Individual Services
+**API Endpoints:**
+- `GET /health` - Health check
+- `GET /docs` - Interactive API documentation
+- `POST /predict` - Get credit risk prediction
 
-```bash
-# API only
-docker-compose up api
-
-# Dashboard only (requires API)
-docker-compose up api dashboard
-
-# MLflow UI only
-docker-compose up mlflow
-```
-
-### Stop Services
+### Stop Service
 
 ```bash
 docker-compose down
@@ -200,7 +190,7 @@ docker-compose down
 ### Build Image Only
 
 ```bash
-docker build -t credit-scoring-model .
+docker build -t credit-scoring-api .
 ```
 
 ---
@@ -232,9 +222,9 @@ streamlit run src/dashboard.py
 python -m src.data_processing
 python -m src.train
 
-# 2. Start all services with Docker
+# 2. Start API with Docker
 docker-compose up --build -d
 
-# 3. Open dashboard
-# http://localhost:8501
+# 3. Access the API
+# http://localhost:8000/docs
 ```

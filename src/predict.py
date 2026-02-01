@@ -28,7 +28,7 @@ class CreditScoringModel:
         'PricingStrategy_2_sum', 'PricingStrategy_4_sum', 'Recency'
     ]
     
-    def __init__(self, model_uri):
+    def __init__(self, model_uri=None):
         """Initialize the scoring engine by loading the trained model and preprocessing pipelines."""
         self.model_uri = model_uri
         self.model = self._load_model()
@@ -41,11 +41,27 @@ class CreditScoringModel:
         self.MAX_SCORE = 850
 
     def _load_model(self):
-        """Loads the model from MLflow"""
+        """Loads the model from MLflow or falls back to pickle file"""
+        # First try MLflow if URI provided
+        if self.model_uri:
+            try:
+                model = mlflow.sklearn.load_model(self.model_uri)
+                logger.info(f"Model loaded successfully from MLflow: {self.model_uri}")
+                return model
+            except Exception as e:
+                logger.warning(f"Could not load from MLflow: {e}. Trying pickle fallback...")
+        
+        # Fallback to pickle file
+        pickle_path = "models/logisticregression.pkl"
         try:
-            model = mlflow.sklearn.load_model(self.model_uri)
-            logger.info(f"Model loaded successfully from {self.model_uri}")
-            return model
+            if os.path.exists(pickle_path):
+                with open(pickle_path, 'rb') as f:
+                    model = pickle.load(f)
+                logger.info(f"Model loaded successfully from pickle: {pickle_path}")
+                return model
+            else:
+                logger.error(f"Model pickle file not found at {pickle_path}")
+                raise FileNotFoundError(f"No model found at {pickle_path}")
         except Exception as e:
             logger.error(f"Failed to load model: {e}")
             raise
