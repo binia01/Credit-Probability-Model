@@ -45,7 +45,24 @@ Follow these steps to reproduce the project environment locally:
 
 ## Running the Project
 
-### 1. Data Processing
+### 1. Exploratory Data Analysis (EDA)
+
+Start by exploring the data with the EDA notebook:
+
+```bash
+jupyter notebook notebooks/EDA.ipynb
+```
+
+Or use JupyterLab:
+```bash
+jupyter lab notebooks/EDA.ipynb
+```
+
+This step helps you understand the data structure, distributions, and patterns before preprocessing.
+
+---
+
+### 2. Data Processing
 
 Process raw data and prepare it for model training:
 
@@ -57,7 +74,7 @@ This runs the data pipeline to create `data/processed/model_ready_data.csv` from
 
 ---
 
-### 2. Model Training
+### 3. Model Training
 
 Train all models (Logistic Regression, Random Forest, and RFM) with MLflow tracking:
 
@@ -79,7 +96,7 @@ Then open http://localhost:5000 in your browser.
 
 ---
 
-### 3. FastAPI Server
+### 4. FastAPI Server
 
 Start the REST API for credit scoring predictions:
 
@@ -95,7 +112,7 @@ uvicorn src.api.main:app --reload --host 0.0.0.0 --port 8000
 
 ---
 
-### 4. Streamlit Dashboard
+### 5. Streamlit Dashboard
 
 Launch the interactive dashboard for credit risk scoring:
 
@@ -106,21 +123,6 @@ streamlit run src/dashboard.py
 > **Note:** The API server must be running for the dashboard to work. Start the API first (see step 3).
 
 The dashboard will be available at http://localhost:8501.
-
----
-
-### 5. Jupyter Notebook (EDA)
-
-Explore the data with the exploratory data analysis notebook:
-
-```bash
-jupyter notebook notebooks/EDA.ipynb
-```
-
-Or use JupyterLab:
-```bash
-jupyter lab notebooks/EDA.ipynb
-```
 
 ---
 
@@ -200,16 +202,19 @@ docker build -t credit-scoring-api .
 Run the entire pipeline in order:
 
 ```bash
-# 1. Process data
+# 1. Explore data (EDA)
+jupyter notebook notebooks/EDA.ipynb
+
+# 2. Process data
 python -m src.data_processing
 
-# 2. Train models
+# 3. Train models
 python -m src.train
 
-# 3. Start API (in a new terminal)
+# 4. Start API (in a new terminal)
 uvicorn src.api.main:app --reload --port 8000
 
-# 4. Start dashboard (in another terminal)
+# 5. Start dashboard (in another terminal)
 streamlit run src/dashboard.py
 ```
 
@@ -218,13 +223,16 @@ streamlit run src/dashboard.py
 ## Quick Start (Docker)
 
 ```bash
-# 1. Train models first (local)
+# 1. Explore data (EDA)
+jupyter notebook notebooks/EDA.ipynb
+
+# 2. Train models first (local)
 python -m src.data_processing
 python -m src.train
 
-# 2. Start API with Docker
+# 3. Start API with Docker
 docker-compose up --build -d
 
-# 3. Access the API
+# 4. Access the API
 # http://localhost:8000/docs
 ```

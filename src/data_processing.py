@@ -1,3 +1,4 @@
+import os
 import pandas as pd
 import numpy as np
 from sklearn.base import BaseEstimator, TransformerMixin
@@ -353,9 +354,10 @@ def create_ml_pipeline():
     return ml_pipeline
 
 if __name__ == "__main__":
-    data_path = "./data/raw/data.csv" 
+    data_path = "./data/raw/dataset.csv" 
     output_path = "./data/processed/model_ready_data.csv"
     try:
+        os.makedirs(os.path.dirname(output_path), exist_ok=True)
 
         processed_data, _ = run_pipeline(data_path)
         # print(processed_data.head())

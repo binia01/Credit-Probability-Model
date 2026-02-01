@@ -11,7 +11,7 @@ from sklearn.ensemble import RandomForestClassifier, GradientBoostingClassifier
 from sklearn.metrics import accuracy_score, precision_score, recall_score, f1_score, roc_auc_score, roc_curve, confusion_matrix
 import mlflow
 import mlflow.sklearn
-from data_processing import run_pipeline, create_preprocessing_pipeline, create_ml_pipeline
+from src.data_processing import run_pipeline, create_preprocessing_pipeline, create_ml_pipeline
 
 # Setup Directories
 os.makedirs("models", exist_ok=True)
@@ -129,7 +129,7 @@ def save_rfm_scaler_from_raw():
     """
     from sklearn.preprocessing import StandardScaler
     from sklearn.pipeline import Pipeline
-    from data_processing import TimeFeatureExtractor, CategoricalEncoder, CustomerAggregator, MissingValueHandler, RiskProxyLabeler
+    from src.data_processing import TimeFeatureExtractor, CategoricalEncoder, CustomerAggregator, MissingValueHandler, RiskProxyLabeler
     
     try:
         print("Creating RFM scaler from RAW data (not pre-scaled)...")
